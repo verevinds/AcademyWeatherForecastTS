@@ -67,11 +67,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 8,
     padding: 24,
-    position: 'absolute',
-    top: 104,
-    bottom: 50,
-    right: 0,
-    left: 0,
+    marginTop: 24,
+    height: 414,
   },
   Board__dot: {
     fontSize: 40,

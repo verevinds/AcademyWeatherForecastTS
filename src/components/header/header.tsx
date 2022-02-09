@@ -22,7 +22,6 @@ const Header = () => {
 const styles = StyleSheet.create({
   Header__block: {
     display: 'flex',
-    flex: 1,
     justifyContent: 'center',
   },
   Header__blockSplite: {
