@@ -9,33 +9,40 @@ export const useForecast = (
   days: string = '7',
   key: string = '42becf62f3ec47178b133303221002',
 ) => {
-  return useQuery(['forecast' + days + city], async () => {
-    const buildTransformResponse = ():
-      | AxiosResponseTransformer
-      | AxiosResponseTransformer[] => {
-      if (Array.isArray(axios.defaults.transformResponse)) {
-        return [...axios.defaults.transformResponse, mutatialIconToUrl];
+  return useQuery(
+    ['forecast' + days + city],
+    async () => {
+      const buildTransformResponse = ():
+        | AxiosResponseTransformer
+        | AxiosResponseTransformer[] => {
+        if (Array.isArray(axios.defaults.transformResponse)) {
+          return [...axios.defaults.transformResponse, mutatialIconToUrl];
+        }
+
+        if (axios.defaults.transformResponse) {
+          return [axios.defaults.transformResponse, mutatialIconToUrl];
+        }
+        return [mutatialIconToUrl];
+      };
+
+      try {
+        if (!BASE_URL_API) {
+          throw new Error('BASE_URL_API environment variable is missing');
+        }
+
+        const response = await axios.get<ForecastResponse | Error>(
+          BASE_URL_API,
+          {
+            params: {alerts: 'alerts', aqi: 'no', days, key, q: city},
+            transformResponse: buildTransformResponse(),
+          },
+        );
+
+        return response.data;
+      } catch (error) {
+        console.error(error);
       }
-
-      if (axios.defaults.transformResponse) {
-        return [axios.defaults.transformResponse, mutatialIconToUrl];
-      }
-      return [mutatialIconToUrl];
-    };
-
-    try {
-      if (!BASE_URL_API) {
-        throw new Error('BASE_URL_API environment variable is missing');
-      }
-
-      const response = await axios.get<ForecastResponse>(BASE_URL_API, {
-        params: {alerts: 'alerts', aqi: 'no', days, key, q: city},
-        transformResponse: buildTransformResponse(),
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  });
+    },
+    {enabled: Boolean(city)},
+  );
 };

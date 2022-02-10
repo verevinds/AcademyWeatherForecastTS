@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {DateTime} from 'luxon';
 import weatherMessage from './weather.message';
+import {checkForecastType} from 'utils/checkForecastType';
 
 type WeatherProps = {
   city: string | null;
@@ -26,8 +27,8 @@ const Weather = ({city}: WeatherProps): JSX.Element => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         pagingEnabled={true}>
-        {data?.forecast.forecastday.map(day => (
-          <View style={styles.Board__forecastBlock}>
+        {checkForecastType(data)?.forecast?.forecastday.map(day => (
+          <View style={styles.Board__forecastBlock} key={day.date}>
             <Text style={styles.Board__titleDay}>
               {DateTime.fromISO(day.date)
                 .toFormat('dd MMM yyyy')
