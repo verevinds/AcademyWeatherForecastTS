@@ -6,20 +6,23 @@ import Board from 'components/board/board';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import styles from 'styles/index';
 
+import {NavigationContainer} from '@react-navigation/native';
 const App = () => {
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <BackgroundImage>
-        <SafeAreaView style={styles.App__view}>
-          <Header />
-          <ScrollView>
-            <Board />
-          </ScrollView>
-        </SafeAreaView>
-      </BackgroundImage>
-    </QueryClientProvider>
+    <NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <BackgroundImage>
+          <SafeAreaView style={styles.App__view}>
+            <Header />
+            <ScrollView>
+              <Board />
+            </ScrollView>
+          </SafeAreaView>
+        </BackgroundImage>
+      </QueryClientProvider>
+    </NavigationContainer>
   );
 };
 

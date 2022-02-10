@@ -4,13 +4,14 @@ import type {ForecastResponse} from 'types/api/forecast';
 import {mutatialIconToUrl} from 'utils/mutatialIconToUrl';
 import {BASE_URL_API} from 'const/api';
 import {buildTransformResponse} from 'utils/buildTransformResponse';
+import {useRefreshOnFocus} from './useRefreshOnFocus';
 
 export const useForecast = (
   city: string | null = null,
   days: string = '7',
   key: string = '42becf62f3ec47178b133303221002',
 ) => {
-  return useQuery(
+  const dataQuery = useQuery(
     ['forecast', days, city],
     async () => {
       try {
@@ -33,4 +34,8 @@ export const useForecast = (
     },
     {enabled: Boolean(city)},
   );
+
+  useRefreshOnFocus(dataQuery.refetch);
+
+  return dataQuery;
 };

@@ -6,6 +6,7 @@ import {BASE_URL_API} from 'const/api';
 import {DateTime} from 'luxon';
 import {pickFirstDay} from 'utils/pickFirstDay';
 import {buildTransformResponse} from 'utils/buildTransformResponse';
+import {useRefreshOnFocus} from './useRefreshOnFocus';
 
 export const useForecastHistory = (
   city: string | null = null,
@@ -16,7 +17,7 @@ export const useForecastHistory = (
     'yyyy-MM-dd',
   );
 
-  return useQuery(
+  const dataQuery = useQuery(
     ['forecast', 'history', formatedDate, city],
     async () => {
       try {
@@ -45,4 +46,7 @@ export const useForecastHistory = (
     },
     {enabled: Boolean(city) && Boolean(date)},
   );
+
+  useRefreshOnFocus(dataQuery.refetch);
+  return dataQuery;
 };
