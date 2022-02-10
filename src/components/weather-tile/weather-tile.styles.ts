@@ -28,10 +28,10 @@ export default StyleSheet.create({
   },
   WeatherTile__forecastBlock: {
     backgroundColor: '#373AF5',
+    marginBottom: 24,
     borderWidth: 2,
     borderColor: '#2C2D76',
     borderRadius: 8,
     flex: 1,
-    marginRight: 16,
   },
 });

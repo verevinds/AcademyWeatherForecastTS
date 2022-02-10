@@ -15,12 +15,9 @@ const Weather = ({city}: WeatherProps): JSX.Element => {
   if (data) {
     return (
       <ScrollView
-        style={styles.Weather__slider}
+        contentContainerStyle={styles.Weather__slider}
         horizontal={true}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled={true}>
+        showsHorizontalScrollIndicator={false}>
         {checkForecastType(data)?.forecast?.forecastday.map(day => (
           <View style={styles.Weather__containerTile}>
             <WeatherTile day={day} />

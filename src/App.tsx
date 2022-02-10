@@ -1,6 +1,6 @@
 import BackgroundImage from 'components/background-image/background-image';
 import React from 'react';
-import {SafeAreaView, ScrollView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import Header from 'components/header/header';
 import Board from 'components/board/board';
 import {QueryClient, QueryClientProvider} from 'react-query';
@@ -14,11 +14,11 @@ const App = () => {
     <NavigationContainer>
       <QueryClientProvider client={queryClient}>
         <BackgroundImage>
-          <SafeAreaView style={styles.App__view}>
+          <SafeAreaView style={styles.App__safeView}>
             <Header />
-            <ScrollView>
+            <View style={styles.App__view}>
               <Board />
-            </ScrollView>
+            </View>
           </SafeAreaView>
         </BackgroundImage>
       </QueryClientProvider>

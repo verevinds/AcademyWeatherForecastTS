@@ -1,6 +1,6 @@
 import Button from 'components/button/button';
 import React, {useState} from 'react';
-import {Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import {Arrow} from 'components/arrow/arrow';
 import cities from 'const/cities';
@@ -58,31 +58,38 @@ const Board = (): JSX.Element => {
           {boardMessage.inThePast}
         </Button>
       </View>
-      <View style={styles.Board__inputBlock}>
-        <View style={styles.Board__select}>
-          <RNPickerSelect
-            onValueChange={handleSelect}
-            placeholder={{label: 'City...', value: 'City...'}}
-            Icon={Arrow}
-            style={{
-              iconContainer: styles.Board__selectIconContainer,
-              viewContainer: styles.Board__selectViewContainer,
-              inputWeb: styles.Board__selectText,
-              inputIOS: styles.Board__selectText,
-              inputAndroid: styles.Board__selectText,
-            }}
-            items={cities}
-          />
+      <ScrollView contentContainerStyle={styles.Board__scrollView}>
+        <View style={[styles.Board__inputBlock]}>
+          <View style={styles.Board__select}>
+            <RNPickerSelect
+              onValueChange={handleSelect}
+              placeholder={{label: 'City...', value: 'City...'}}
+              Icon={Arrow}
+              style={{
+                iconContainer: styles.Board__selectIconContainer,
+                viewContainer: styles.Board__selectViewContainer,
+                inputWeb: styles.Board__selectText,
+                inputIOS: styles.Board__selectText,
+                inputAndroid: styles.Board__selectText,
+              }}
+              items={cities}
+            />
+          </View>
+          {isFirstButtonActive ? null : (
+            <DatePicker
+              style={styles.Board__datePicker}
+              onChangeDate={setDate}
+            />
+          )}
         </View>
-        {isFirstButtonActive ? null : (
-          <DatePicker style={styles.Board__datePicker} onChangeDate={setDate} />
-        )}
-      </View>
-      {isFirstButtonActive ? (
-        <Weather city={city} />
-      ) : (
-        <WeatherHistory date={date} city={city} />
-      )}
+        <View style={styles.Board__content}>
+          {isFirstButtonActive ? (
+            <Weather city={city} />
+          ) : (
+            <WeatherHistory date={date} city={city} />
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 };

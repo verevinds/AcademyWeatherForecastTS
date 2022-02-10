@@ -37,7 +37,7 @@ export default StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 8,
     marginTop: 24,
-    height: 414,
+    flex: 1,
   },
   Board__dot: {
     fontSize: 40,
@@ -61,5 +61,11 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     color: '#424242',
+  },
+  Board__content: {
+    flex: 1,
+  },
+  Board__scrollView: {
+    flex: 1,
   },
 });

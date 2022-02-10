@@ -1,12 +1,13 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-  App__view: {
-    position: 'absolute',
-    top: 0,
-    left: 10,
-    right: 10,
-    bottom: 0,
+  App__safeView: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 50,
+    flex: 1,
   },
-  App__scroll: {},
+  App__view: {
+    flex: 1,
+  },
 });
