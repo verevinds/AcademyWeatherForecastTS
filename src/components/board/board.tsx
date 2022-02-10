@@ -8,9 +8,11 @@ import boardMessage from './board.message';
 import Weather from 'components/weather/weather';
 import WeatherHistory from 'components/weather-history/weather-history';
 import styles from './broad.styles';
+import DatePicker from 'components/datepicker/datepicker';
 
 const Board = () => {
   const [city, setCity] = useState<string | null>(null);
+  const [date, setDate] = useState<Date>(new Date());
   const [isFirstButtonActive, toggleFirstButtonActive] = useState(true);
 
   const handleSevenDaysButton = () => {
@@ -57,21 +59,36 @@ const Board = () => {
         </Button>
       </View>
       <View style={styles.Board__inputBlock}>
-        <RNPickerSelect
-          onValueChange={handleSelect}
-          placeholder={{label: 'City...', value: 'City...'}}
-          Icon={Arrow}
-          style={{
-            iconContainer: styles.Board__selectIconContainer,
-            viewContainer: styles.Board__selectViewContainer,
-            inputWeb: styles.Board__selectText,
-            inputIOS: styles.Board__selectText,
-            inputAndroid: styles.Board__selectText,
-          }}
-          items={cities}
-        />
+        <View style={styles.Board__select}>
+          <RNPickerSelect
+            onValueChange={handleSelect}
+            placeholder={{label: 'City...', value: 'City...'}}
+            Icon={Arrow}
+            style={{
+              iconContainer: styles.Board__selectIconContainer,
+              viewContainer: styles.Board__selectViewContainer,
+              inputWeb: styles.Board__selectText,
+              inputIOS: styles.Board__selectText,
+              inputAndroid: styles.Board__selectText,
+            }}
+            items={cities}
+          />
+        </View>
+        {isFirstButtonActive ? null : (
+          <DatePicker
+            style={styles.Board__datePicker}
+            onChangeDate={(val: Date) => {
+              console.log(val);
+              setDate(val);
+            }}
+          />
+        )}
       </View>
-      {isFirstButtonActive ? <Weather city={city} /> : <WeatherHistory />}
+      {isFirstButtonActive ? (
+        <Weather city={city} />
+      ) : (
+        <WeatherHistory date={date} city={city} />
+      )}
     </View>
   );
 };

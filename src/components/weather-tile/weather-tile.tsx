@@ -1,36 +1,29 @@
-import {useForecast} from 'hooks/useForecast';
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import {DateTime} from 'luxon';
 
-import {checkForecastType} from 'utils/checkForecastType';
-import Placeholder from 'components/placeholder/placeholder';
-import WeatherTile from 'components/weather-tile/weather-tile';
+import {Forecastday} from 'types/api/forecast';
 
-type WeatherProps = {
-  city: string | null;
+type WeatherTileProps = {
+  day?: Forecastday;
 };
-const Weather = ({city}: WeatherProps): JSX.Element => {
-  const {data, isFetching} = useForecast(city);
-
-  if (data) {
-    return (
-      <ScrollView
-        style={styles.Board__slider}
-        horizontal={true}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled={true}>
-        {checkForecastType(data)?.forecast?.forecastday.map(day => (
-          <View style={styles.Board__containerTile}>
-            <WeatherTile day={day} />
-          </View>
-        ))}
-      </ScrollView>
-    );
+const WeatherTile = ({day}: WeatherTileProps) => {
+  if (!day) {
+    return null;
   }
 
-  return <Placeholder isFetching={isFetching} />;
+  return (
+    <View style={styles.Board__forecastBlock} key={day.date}>
+      <Text style={styles.Board__titleDay}>
+        {DateTime.fromISO(day.date).toFormat('dd MMM yyyy').toLocaleLowerCase()}
+      </Text>
+      <Image
+        style={styles.Board__IconWearher}
+        source={{uri: day.day.condition.icon}}
+      />
+      <Text style={styles.Board__avgTemp}>{day.day.avgtemp_c}°</Text>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -48,10 +41,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   Board__slider: {flex: 1, marginLeft: 24},
-  Board__containerTile: {
-    width: 222,
-    height: 238,
-  },
   Board__titleDay: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -85,8 +74,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#2C2D76',
     borderRadius: 8,
-    width: 222,
-    height: 238,
+    flex: 1,
     marginRight: 16,
   },
   Board__block: {
@@ -145,4 +133,4 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
 });
-export default Weather;
+export default WeatherTile;

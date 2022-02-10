@@ -10,7 +10,7 @@ export const useForecast = (
   key: string = '42becf62f3ec47178b133303221002',
 ) => {
   return useQuery(
-    ['forecast' + days + city],
+    ['forecast', days, city],
     async () => {
       const buildTransformResponse = ():
         | AxiosResponseTransformer
@@ -31,7 +31,7 @@ export const useForecast = (
         }
 
         const response = await axios.get<ForecastResponse | Error>(
-          BASE_URL_API,
+          BASE_URL_API + 'forecast.json',
           {
             params: {alerts: 'alerts', aqi: 'no', days, key, q: city},
             transformResponse: buildTransformResponse(),

@@ -1,13 +1,32 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
+  Board__inputBlock: {
+    flexDirection: 'row',
+    marginLeft: 24,
+    marginRight: 24,
+    marginVertical: 24,
+  },
+  Board__select: {
+    backgroundColor: 'rgba(128, 131, 164, 0.06)',
+    flex: 1,
+    height: 48,
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    justifyContent: 'flex-start',
+    borderColor: 'rgba(128, 131, 164, 0.2)',
+    borderWidth: 2,
+    borderRadius: 8,
+  },
+  Board__datePicker: {
+    marginLeft: 16,
+  },
   Board__selectIconContainer: {
     justifyContent: 'center',
     height: '100%',
   },
   Board__selectViewContainer: {
-    paddingHorizontal: 15,
-    paddingVertical: 12,
+    height: 24,
     flex: 1,
   },
   Board__selectText: {
@@ -38,17 +57,6 @@ export default StyleSheet.create({
   Board__button_left: {marginRight: 12, marginLeft: 24},
   Board__button_leftFirstButton: {marginRight: 12},
   Board__button_right: {marginLeft: 12},
-  Board__inputBlock: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(128, 131, 164, 0.06)',
-    marginLeft: 24,
-    marginRight: 24,
-    justifyContent: 'flex-start',
-    marginVertical: 24,
-    borderColor: 'rgba(128, 131, 164, 0.2)',
-    borderWidth: 2,
-    borderRadius: 8,
-  },
   Board__input: {
     flex: 1,
     backgroundColor: '#fff',
