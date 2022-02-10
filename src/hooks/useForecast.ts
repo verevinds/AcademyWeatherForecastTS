@@ -5,11 +5,11 @@ import {mutatialIconToUrl} from 'utils/mutatialIconToUrl';
 import {BASE_URL_API} from 'const/api';
 
 export const useForecast = (
-  q: string = 'Samara',
+  city: string | null = null,
   days: string = '7',
   key: string = '42becf62f3ec47178b133303221002',
 ) => {
-  return useQuery(['forecast' + days + q], async () => {
+  return useQuery(['forecast' + days + city], async () => {
     const buildTransformResponse = ():
       | AxiosResponseTransformer
       | AxiosResponseTransformer[] => {
@@ -29,7 +29,7 @@ export const useForecast = (
       }
 
       const response = await axios.get<ForecastResponse>(BASE_URL_API, {
-        params: {alerts: 'alerts', aqi: 'no', days, key, q},
+        params: {alerts: 'alerts', aqi: 'no', days, key, q: city},
         transformResponse: buildTransformResponse(),
       });
 

@@ -1,75 +1,68 @@
-import Button from 'components/button/button';
-import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
-import {Arrow} from 'components/arrow/arrow';
-import cities from 'const/cities';
-import boardMessage from './board.message';
-import Weather from 'components/weather/weather';
+import {useForecast} from 'hooks/useForecast';
+import React, {Fragment} from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {DateTime} from 'luxon';
+import weatherMessage from './weather.message';
 
-const Board = () => {
-  const [city, setCity] = useState<string | null>(null);
-  const [isFirstButtonActive, toggleFirstButtonActive] = useState(true);
+type WeatherProps = {
+  city: string | null;
+};
+const Weather = ({city}: WeatherProps): JSX.Element => {
+  const {data, isFetching} = useForecast(city);
 
-  const handleSevenDaysButton = () => {
-    toggleFirstButtonActive(true);
-  };
-  const handleInThePastButton = () => {
-    toggleFirstButtonActive(false);
-  };
-  const handleSelect = (value: string) => {
-    if (value === 'City...') {
-      setCity(null);
-      return;
-    }
-    setCity(value);
-  };
+  if (data) {
+    return (
+      <ScrollView
+        style={styles.Board__slider}
+        horizontal={true}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        pagingEnabled={true}>
+        {data?.forecast.forecastday.map(day => (
+          <View style={styles.Board__forecastBlock}>
+            <Text style={styles.Board__titleDay}>
+              {DateTime.fromISO(day.date)
+                .toFormat('dd MMM yyyy')
+                .toLocaleLowerCase()}
+            </Text>
+            <Image
+              style={styles.Board__IconWearher}
+              source={{uri: day.day.condition.icon}}
+            />
+            <Text style={styles.Board__avgTemp}>{day.day.avgtemp_c}°</Text>
+          </View>
+        ))}
+      </ScrollView>
+    );
+  }
+
+  if (!isFetching) {
+    return (
+      <View>
+        <Fragment>
+          <Image
+            source={require('assets/placeholder.png')}
+            style={styles.Board_placeholder}
+          />
+          <Text style={styles.Board_placeholderText}>
+            {weatherMessage.placeholderText}
+          </Text>
+        </Fragment>
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.Board__block}>
-      <View
-        style={[
-          styles.Board__buttons,
-          !isFirstButtonActive ? styles.Board__buttons_reverse : undefined,
-        ]}>
-        <Button
-          onPress={handleSevenDaysButton}
-          active={isFirstButtonActive}
-          style={
-            isFirstButtonActive
-              ? styles.Board__button_leftFirstButton
-              : styles.Board__button_right
-          }>
-          {boardMessage.threeDays}
-        </Button>
-        <Text style={styles.Board__dot}>·</Text>
-        <Button
-          onPress={handleInThePastButton}
-          active={!isFirstButtonActive}
-          style={
-            !isFirstButtonActive
-              ? styles.Board__button_left
-              : styles.Board__button_right
-          }>
-          {boardMessage.inThePast}
-        </Button>
-      </View>
-      <View style={styles.Board__inputBlock}>
-        <RNPickerSelect
-          onValueChange={handleSelect}
-          placeholder={{label: 'City...', value: 'City...'}}
-          Icon={Arrow}
-          style={{
-            iconContainer: styles.Board__selectIconContainer,
-            viewContainer: styles.Board__selectViewContainer,
-            inputWeb: styles.Board__selectText,
-            inputIOS: styles.Board__selectText,
-            inputAndroid: styles.Board__selectText,
-          }}
-          items={cities}
-        />
-      </View>
-      <Weather city={city} />
+    <View>
+      <ActivityIndicator />
     </View>
   );
 };
@@ -182,5 +175,4 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
 });
-
-export default Board;
+export default Weather;
