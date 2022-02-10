@@ -9,6 +9,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import {DateTime} from 'luxon';
 
 const Board = () => {
   const [isFirstButtonActive, toggleFirstButtonActive] = useState(true);
@@ -72,7 +73,11 @@ const Board = () => {
             return (
               <View style={styles.Board__forecastBlock}>
                 <View>
-                  <Text style={styles.Board__titleDay}>{day.date}</Text>
+                  <Text style={styles.Board__titleDay}>
+                    {DateTime.fromISO(day.date)
+                      .toFormat('dd MMM yyyy')
+                      .toLocaleLowerCase()}
+                  </Text>
                 </View>
                 <View>
                   <Image
