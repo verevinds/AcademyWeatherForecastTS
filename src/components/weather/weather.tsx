@@ -10,7 +10,7 @@ type WeatherProps = {
   city: string | null;
 };
 const Weather = ({city}: WeatherProps): JSX.Element => {
-  const {data, isFetching} = useForecast(city);
+  const {data, isFetching, isLoading} = useForecast(city);
 
   if (data) {
     return (
@@ -30,7 +30,7 @@ const Weather = ({city}: WeatherProps): JSX.Element => {
     );
   }
 
-  return <Placeholder isFetching={isFetching} />;
+  return <Placeholder isFetching={isFetching || isLoading} />;
 };
 
 const styles = StyleSheet.create({

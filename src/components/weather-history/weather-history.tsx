@@ -7,12 +7,8 @@ import {checkForecastdayType} from 'utils/checkForecastdayType';
 
 type WeatherHistoryProps = {date: Date; city: string | null};
 const WeatherHistory = ({date, city}: WeatherHistoryProps): JSX.Element => {
-  const {data, isFetched, status, failureCount, error} = useForecastHistory(
-    city,
-    date,
-  );
+  const {data, isFetched, isLoading} = useForecastHistory(city, date);
 
-  console.log('useForecastHistory', data, status, failureCount, error);
   if (data) {
     return (
       <View style={styles.Board__view}>
@@ -20,7 +16,7 @@ const WeatherHistory = ({date, city}: WeatherHistoryProps): JSX.Element => {
       </View>
     );
   }
-  return <Placeholder isFetching={isFetched} />;
+  return <Placeholder isFetching={isFetched || isLoading} />;
 };
 
 const styles = StyleSheet.create({

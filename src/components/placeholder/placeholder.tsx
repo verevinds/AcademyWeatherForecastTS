@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   Board_placeholder: {
     alignSelf: 'center',
     borderColor: '#DEDEDE',
+    borderStyle: 'dashed',
     borderWidth: 2,
   },
   Board_placeholderText: {
