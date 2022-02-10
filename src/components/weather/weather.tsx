@@ -1,16 +1,9 @@
 import {useForecast} from 'hooks/useForecast';
-import React, {Fragment} from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import React from 'react';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {DateTime} from 'luxon';
-import weatherMessage from './weather.message';
 import {checkForecastType} from 'utils/checkForecastType';
+import Placeholder from 'components/placeholder/placeholder';
 
 type WeatherProps = {
   city: string | null;
@@ -45,27 +38,7 @@ const Weather = ({city}: WeatherProps): JSX.Element => {
     );
   }
 
-  if (!isFetching) {
-    return (
-      <View>
-        <Fragment>
-          <Image
-            source={require('assets/placeholder.png')}
-            style={styles.Board_placeholder}
-          />
-          <Text style={styles.Board_placeholderText}>
-            {weatherMessage.placeholderText}
-          </Text>
-        </Fragment>
-      </View>
-    );
-  }
-
-  return (
-    <View>
-      <ActivityIndicator />
-    </View>
-  );
+  return <Placeholder isFetching={isFetching} />;
 };
 
 const styles = StyleSheet.create({

@@ -6,6 +6,7 @@ import {Arrow} from 'components/arrow/arrow';
 import cities from 'const/cities';
 import boardMessage from './board.message';
 import Weather from 'components/weather/weather';
+import WeatherHistory from 'components/weather-history/weather-history';
 
 const Board = () => {
   const [city, setCity] = useState<string | null>(null);
@@ -69,7 +70,7 @@ const Board = () => {
           items={cities}
         />
       </View>
-      <Weather city={city} />
+      {isFirstButtonActive ? <Weather city={city} /> : <WeatherHistory />}
     </View>
   );
 };
