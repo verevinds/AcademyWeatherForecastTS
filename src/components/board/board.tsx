@@ -61,7 +61,7 @@ const Board = () => {
       </View>
       {isSuccess ? (
         <ScrollView
-          style={{flex: 1}}
+          style={styles.Board__slider}
           horizontal={true}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
@@ -105,6 +105,7 @@ const Board = () => {
 };
 
 const styles = StyleSheet.create({
+  Board__slider: {flex: 1},
   Board__titleDay: {
     fontSize: 16,
     fontWeight: 'bold',
