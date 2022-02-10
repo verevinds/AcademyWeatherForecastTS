@@ -1,20 +1,21 @@
 import React, {Fragment} from 'react';
-import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Image, Text, View} from 'react-native';
 import placeholderMessage from './placeholder.message';
+import styles from './placeholder.styles';
 
 type PlaceholderProps = {
   isFetching?: boolean;
 };
-const Placeholder = ({isFetching}: PlaceholderProps) => {
+const Placeholder = ({isFetching}: PlaceholderProps): JSX.Element => {
   if (!isFetching) {
     return (
       <View>
         <Fragment>
           <Image
             source={require('assets/placeholder.png')}
-            style={styles.Board_placeholder}
+            style={styles.Placeholder__placeholder}
           />
-          <Text style={styles.Board_placeholderText}>
+          <Text style={styles.Placeholder__placeholderText}>
             {placeholderMessage.placeholderText}
           </Text>
         </Fragment>
@@ -28,24 +29,5 @@ const Placeholder = ({isFetching}: PlaceholderProps) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  Board_placeholder: {
-    alignSelf: 'center',
-    borderColor: '#DEDEDE',
-    borderStyle: 'dashed',
-    borderWidth: 2,
-  },
-  Board_placeholderText: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#8083A4',
-    width: 240,
-    alignSelf: 'center',
-    marginTop: 24,
-  },
-});
 
 export default Placeholder;

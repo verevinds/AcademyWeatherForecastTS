@@ -2,8 +2,9 @@ import React from 'react';
 import Placeholder from 'components/placeholder/placeholder';
 import {useForecastHistory} from 'hooks/useForecastHistory';
 import WeatherTile from 'components/weather-tile/weather-tile';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import {checkForecastdayType} from 'utils/checkForecastdayType';
+import styles from './weather-history.styles';
 
 type WeatherHistoryProps = {date: Date; city: string | null};
 const WeatherHistory = ({date, city}: WeatherHistoryProps): JSX.Element => {
@@ -11,16 +12,12 @@ const WeatherHistory = ({date, city}: WeatherHistoryProps): JSX.Element => {
 
   if (data) {
     return (
-      <View style={styles.Board__view}>
+      <View style={styles.WeatherHistory__view}>
         <WeatherTile day={checkForecastdayType(data)} />
       </View>
     );
   }
   return <Placeholder isFetching={isFetched || isLoading} />;
 };
-
-const styles = StyleSheet.create({
-  Board__view: {flex: 1, marginLeft: 24, marginRight: 12, marginBottom: 24},
-});
 
 export default WeatherHistory;

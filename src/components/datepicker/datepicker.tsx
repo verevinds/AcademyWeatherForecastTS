@@ -10,17 +10,28 @@ import {
   ViewStyle,
 } from 'react-native';
 import DatePickerComponent from 'react-native-date-picker';
+import styles from './datepicker.styles';
 
 type DatePicker = {
   style: ViewStyle | TextStyle | ImageStyle;
   onChangeDate: (date: Date) => void;
 };
-const DatePicker = ({style, onChangeDate}: DatePicker) => {
+const DatePicker = ({style, onChangeDate}: DatePicker): JSX.Element => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
 
   const onPress = () => {
     setOpen(true);
+  };
+  const onConfirm = (value: Date) => {
+    setOpen(false);
+    setDate(value);
+    if (onChangeDate) {
+      onChangeDate(value);
+    }
+  };
+  const onCancel = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -31,22 +42,16 @@ const DatePicker = ({style, onChangeDate}: DatePicker) => {
 
   return (
     <ImageBackground
-      style={[
-        {
-          width: 44,
-          height: 48,
-        },
-        style,
-      ]}
+      style={[styles.Datepicker__imageBackground, style]}
       source={require('assets/date-place.png')}>
       <TouchableOpacity onPress={onPress}>
-        <View style={{height: '100%', alignItems: 'center'}}>
+        <View style={styles.Datepicker__textContainer}>
           {date ? (
-            <View style={{position: 'absolute', bottom: 4}}>
-              <Text style={{textAlign: 'center', fontSize: 14}}>
+            <View style={styles.Datepicker__dateTextContainer}>
+              <Text style={styles.Datepicker__dateDay}>
                 {DateTime.fromISO(date.toISOString()).day}
               </Text>
-              <Text style={{textAlign: 'center', fontSize: 12}}>
+              <Text style={styles.Datepicker__dateMonth}>
                 {DateTime.fromISO(date.toISOString())
                   .toFormat('MMM')
                   .toLocaleLowerCase()}
@@ -64,16 +69,8 @@ const DatePicker = ({style, onChangeDate}: DatePicker) => {
         maximumDate={new Date()}
         open={open}
         date={date}
-        onConfirm={value => {
-          setOpen(false);
-          setDate(value);
-          if (onChangeDate) {
-            onChangeDate(value);
-          }
-        }}
-        onCancel={() => {
-          setOpen(false);
-        }}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
     </ImageBackground>
   );

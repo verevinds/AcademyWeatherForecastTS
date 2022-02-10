@@ -1,4 +1,4 @@
-import {Error} from 'types';
+import type {Error} from 'types';
 import type {Forecastday, ForecastResponse} from 'types/api/forecast';
 
 export const mutatialIconToUrl = (data: any): ForecastResponse | Error => {

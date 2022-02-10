@@ -1,11 +1,12 @@
 import React, {PropsWithChildren} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import type {
   GestureResponderEvent,
   ViewStyle,
   ImageStyle,
   TextStyle,
 } from 'react-native';
+import styles from './button.styles';
 
 type ButtonProps = {
   onPress: (event: GestureResponderEvent) => void;
@@ -32,15 +33,4 @@ const Button = ({
   );
 };
 
-const styles = StyleSheet.create({
-  Button__text: {
-    fontSize: 24,
-    lineHeight: 32,
-    color: '#8083A4',
-    fontWeight: 'bold',
-  },
-  Button__text_active: {
-    color: '#2C2D76',
-  },
-});
 export default Button;

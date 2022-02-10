@@ -1,4 +1,4 @@
-import {Error} from 'types';
+import type {Error} from 'types';
 import type {Forecastday, ForecastResponse} from 'types/api/forecast';
 import {checkForecastType} from './checkForecastType';
 

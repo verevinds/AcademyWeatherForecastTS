@@ -10,7 +10,7 @@ import WeatherHistory from 'components/weather-history/weather-history';
 import styles from './broad.styles';
 import DatePicker from 'components/datepicker/datepicker';
 
-const Board = () => {
+const Board = (): JSX.Element => {
   const [city, setCity] = useState<string | null>(null);
   const [date, setDate] = useState<Date>(new Date());
   const [isFirstButtonActive, toggleFirstButtonActive] = useState(true);
@@ -75,13 +75,7 @@ const Board = () => {
           />
         </View>
         {isFirstButtonActive ? null : (
-          <DatePicker
-            style={styles.Board__datePicker}
-            onChangeDate={(val: Date) => {
-              console.log(val);
-              setDate(val);
-            }}
-          />
+          <DatePicker style={styles.Board__datePicker} onChangeDate={setDate} />
         )}
       </View>
       {isFirstButtonActive ? (

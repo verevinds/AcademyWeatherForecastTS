@@ -1,4 +1,6 @@
 import React from 'react';
 import {Image} from 'react-native';
 
-export const Arrow = () => <Image source={require('assets/arrow.png')} />;
+export const Arrow = (): JSX.Element => (
+  <Image source={require('assets/arrow.png')} />
+);
