@@ -1,9 +1,19 @@
 import Button from 'components/button/button';
+import {useForecast} from 'hooks/useForecast';
 import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 const Board = () => {
   const [isFirstButtonActive, toggleFirstButtonActive] = useState(true);
+  const {data, isSuccess} = useForecast();
+  console.log(data);
   return (
     <View style={styles.Board__block}>
       <View
@@ -49,20 +59,82 @@ const Board = () => {
           underlineColorAndroid="transparent"
         />
       </View>
-      <View>
-        <Image
-          source={require('assets/placeholder.png')}
-          style={styles.Board_placeholder}
-        />
-        <Text style={styles.Board_placeholderText}>
-          Fill in all the fields and the weather will be displayed
-        </Text>
-      </View>
+      {isSuccess ? (
+        <ScrollView
+          style={{flex: 1}}
+          horizontal={true}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled={true}>
+          {data?.forecast.forecastday.map(day => {
+            console.log(day.day.condition.icon);
+            return (
+              <View style={styles.Board__forecastBlock}>
+                <View>
+                  <Text style={styles.Board__titleDay}>{day.date}</Text>
+                </View>
+                <View>
+                  <Image
+                    style={styles.Board__IconWearher}
+                    source={{uri: day.day.condition.icon}}
+                  />
+                </View>
+                <View>
+                  <Text style={styles.Board__avgTemp}>
+                    {day.day.avgtemp_c}°
+                  </Text>
+                </View>
+              </View>
+            );
+          })}
+        </ScrollView>
+      ) : (
+        <View>
+          <Image
+            source={require('assets/placeholder.png')}
+            style={styles.Board_placeholder}
+          />
+          <Text style={styles.Board_placeholderText}>
+            Fill in all the fields and the weather will be displayed
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  Board__titleDay: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    lineHeight: 24,
+    color: '#fff',
+    margin: 20,
+  },
+  Board__forecastSlider: {
+    flexDirection: 'row',
+  },
+  Board__avgTemp: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    lineHeight: 32,
+    color: '#fff',
+    margin: 20,
+    textAlign: 'right',
+  },
+  Board__IconWearher: {
+    alignSelf: 'center',
+    height: 120,
+    width: 120,
+  },
+  Board__forecastBlock: {
+    backgroundColor: '#373AF5',
+    borderRadius: 8,
+    width: 222,
+    height: 238,
+    marginRight: 16,
+  },
   Board__block: {
     backgroundColor: '#FFFFFF',
     borderRadius: 8,
@@ -102,7 +174,6 @@ const styles = StyleSheet.create({
   Board_placeholder: {
     alignSelf: 'center',
     borderColor: '#DEDEDE',
-    borderStyle: 'dashed',
     borderWidth: 2,
   },
   Board_placeholderText: {

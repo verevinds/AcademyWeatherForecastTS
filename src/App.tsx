@@ -3,15 +3,20 @@ import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import Header from 'components/header/header';
 import Board from 'components/board/board';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
 const App = () => {
+  const queryClient = new QueryClient();
+
   return (
-    <BackgroundImage>
-      <SafeAreaView style={styles.App__view}>
-        <Header />
-        <Board />
-      </SafeAreaView>
-    </BackgroundImage>
+    <QueryClientProvider client={queryClient}>
+      <BackgroundImage>
+        <SafeAreaView style={styles.App__view}>
+          <Header />
+          <Board />
+        </SafeAreaView>
+      </BackgroundImage>
+    </QueryClientProvider>
   );
 };
 
