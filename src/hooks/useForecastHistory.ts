@@ -1,18 +1,13 @@
 import {useQuery} from 'react-query';
-import axios from 'axios';
 import type {Forecastday} from 'types/api/forecast';
 import {mutatialIconToUrl} from 'utils/mutatialIconToUrl';
-import {BASE_URL_API} from 'const/api';
 import {DateTime} from 'luxon';
 import {pickFirstDay} from 'utils/pickFirstDay';
 import {buildTransformResponse} from 'utils/buildTransformResponse';
 import {useRefreshOnFocus} from './useRefreshOnFocus';
+import {WeatherApi} from 'api';
 
-export const useForecastHistory = (
-  city: string | null = null,
-  date: Date,
-  key: string = '42becf62f3ec47178b133303221002',
-) => {
+export const useForecastHistory = (city: string | null = null, date: Date) => {
   const formatedDate = DateTime.fromISO(date.toISOString()).toFormat(
     'yyyy-MM-dd',
   );
@@ -21,16 +16,11 @@ export const useForecastHistory = (
     ['forecast', 'history', formatedDate, city],
     async () => {
       try {
-        if (!BASE_URL_API) {
-          throw new Error('BASE_URL_API environment variable is missing');
-        }
-
-        const response = await axios.get<Forecastday | Error>(
-          BASE_URL_API + 'history.json',
+        const response = await WeatherApi.get<Forecastday | Error>(
+          'history.json',
           {
             params: {
               dt: formatedDate,
-              key,
               q: city,
             },
             transformResponse: buildTransformResponse([

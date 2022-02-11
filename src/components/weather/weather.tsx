@@ -19,7 +19,7 @@ const Weather = ({city}: WeatherProps): JSX.Element => {
         horizontal={true}
         showsHorizontalScrollIndicator={false}>
         {checkForecastType(data)?.forecast?.forecastday.map(day => (
-          <View style={styles.Weather__containerTile}>
+          <View style={styles.Weather__containerTile} key={day.date}>
             <WeatherTile day={day} />
           </View>
         ))}

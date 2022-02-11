@@ -5,9 +5,9 @@ import Header from 'components/header/header';
 import Board from 'components/board/board';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import styles from 'styles/index';
-
 import {NavigationContainer} from '@react-navigation/native';
-const App = () => {
+
+const App = (): JSX.Element => {
   const queryClient = new QueryClient();
 
   return (
